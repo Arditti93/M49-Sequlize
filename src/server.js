@@ -11,7 +11,10 @@ const app = express()
 
 app.use(express.json()) 
 
-const syncTables = () => {
+const syncTables = () => { 
+    Author.hasMany(Book)
+    Book.belongsTo(Author)
+
     Book.sync({ alter: true})
     Author.sync({alter: true})
 }

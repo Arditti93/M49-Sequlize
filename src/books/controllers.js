@@ -1,12 +1,20 @@
 const Book = require("./model")
+const Author = require("../authors/model")
 
 const addBook = async (req, res) => {
     try {
-        // const newBook = await Book.create({
-        //     title: req.body.title,
-        //     author: req.body.author
-        // })
-        const newBook = await Book.create(req.body)
+        const author = await Author.findOne({
+            where: {
+                authorName: req.body.author
+            }
+        })
+
+        const newBook = await Book.create({
+            title: req.body.title,
+            author: req.body.author,
+            AuthorId: author.id 
+        })
+        // const newBook = await Book.create(req.body)
 
         res.status(200).json({message: "Success", book: newBook })
     } catch (error)  {
