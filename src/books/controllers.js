@@ -25,7 +25,43 @@ const getAllBooks = async (req, res) => {
     }
 }
 
+// updates author of book
+const updateBook = async (req, res) => {
+    try {
+        const updateBook = await Book.update(
+            {
+                author: req.body.newAuthor
+            },
+            {
+                where: {
+                    title: req.body.title
+                }
+            }
+        )
+        res.status(200).json({message: "Success", updateBook: updateBook})
+    } catch (error) {
+        res.status(501).json({message: error.message, error: error})
+        console.log(error)
+    }
+}
+
+const deleteBook = async (req, res) => {
+    try  {
+        const deleteBook = await Book.destroy({
+            where: {
+                title: req.body.title
+            }
+        })
+        res.status(201).json({message: "Success", book: deleteBook})
+    } catch (error) {
+        res.status(501).json({message: error.message, error: error})
+        console.log(error)
+    }
+}
+
 module.exports = {
     addBook,
-    getAllBooks
+    getAllBooks,
+    updateBook,
+    deleteBook
 }
